@@ -1,6 +1,54 @@
 package ru.netology.javacore;
 
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.ArrayList;
+import java.util.Collections;
+
 public class TodosTests {
 
-    // ваши тесты для класса Todos
+    private Todos todos;
+
+    @BeforeAll
+    public static void startTesting() {
+        System.out.println("Запуск тестов");
+    }
+
+    @BeforeEach
+    public void setUp() {
+        System.out.println("Действия перед каждым тестом");
+        String task1 = "Пробежка";
+        String task2 = "Работа";
+        String task3 = "Отдых";
+        todos = new Todos();
+        Todos.tasks.add(task1);
+        Todos.tasks.add(task2);
+        Todos.tasks.add(task3);
+
+        Collections.sort(Todos.tasks);
+    }
+
+    @Test
+    public void whenRemoveTask(){
+        todos.removeTask("Работа");
+        ArrayList<String> taskList = todos.getListTask();
+        Assertions.assertEquals(taskList.size(), 2);
+    }
+
+    @Test
+    public void whenAddNewTask(){
+        Assertions.assertEquals(todos.getListTask().size(), 3);
+        todos.addTask("Учеба");
+        Assertions.assertEquals(todos.getListTask().size(), 4);
+    }
+
+    @Test
+    public void whenGetAllTasks(){
+        String testTaskLIst = "[Отдых, Пробежка, Работа]";
+        assertTrue(todos.getAllTasks().equals(testTaskLIst));
+    }
 }
