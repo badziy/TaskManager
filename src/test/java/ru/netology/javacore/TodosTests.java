@@ -1,9 +1,7 @@
 package ru.netology.javacore;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
@@ -24,12 +22,16 @@ public class TodosTests {
         String task1 = "Пробежка";
         String task2 = "Работа";
         String task3 = "Отдых";
-        todos = new Todos();
         Todos.tasks.add(task1);
         Todos.tasks.add(task2);
         Todos.tasks.add(task3);
-
+        todos = new Todos();
         Collections.sort(Todos.tasks);
+    }
+
+    @AfterEach
+    public void refresh() {
+       Todos.tasks.clear();
     }
 
     @Test
