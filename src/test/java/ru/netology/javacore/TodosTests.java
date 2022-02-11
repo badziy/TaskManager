@@ -19,14 +19,13 @@ public class TodosTests {
     @BeforeEach
     public void setUp() {
         System.out.println("Действия перед каждым тестом");
-        String task1 = "Пробежка";
-        String task2 = "Работа";
-        String task3 = "Отдых";
+        String task1 = "Отдых";
+        String task2 = "Пробежка";
+        String task3 = "Работа";
         Todos.tasks.add(task1);
         Todos.tasks.add(task2);
         Todos.tasks.add(task3);
         todos = new Todos();
-        Collections.sort(Todos.tasks);
     }
 
     @AfterEach

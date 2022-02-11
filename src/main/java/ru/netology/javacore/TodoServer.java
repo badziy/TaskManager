@@ -9,25 +9,27 @@ import java.net.Socket;
 public class TodoServer {
 
     public TodoServer(int port, Todos todos) {
+        Gson gson = new Gson();
+
         while (true) {
             try (ServerSocket serverSocket = new ServerSocket(port);
                  Socket clientSocket = serverSocket.accept();
                  PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
-                 BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()))) {
+                 BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+                 FileWriter file = new FileWriter("new_data.json")) {
 
                 System.out.println("New connection accepted");
 
 
                 final String json = in.readLine();
-
-                Gson gson = new Gson();
                 todos = new Gson().fromJson(json, Todos.class);
-                if ("ADD".equals(todos.getType())) {
-                    todos.addTask(todos.getTask());
-                } else if ("REMOVE".equals(todos.getType())) {
-                    todos.removeTask(todos.getTask());
+
+                switch (todos.getType()) {
+                    case "ADD": todos.addTask(todos.getTask()); break;
+                    case "REMOVE": todos.removeTask(todos.getTask()); break;
                 }
-                System.out.println(todos.getAllTasks());
+                file.write(todos.getAllTasks());
+                file.flush();
             } catch (IOException e) {
                 System.out.println("Соединение разорвано");
             }
