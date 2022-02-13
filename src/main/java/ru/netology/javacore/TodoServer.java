@@ -15,8 +15,7 @@ public class TodoServer {
             try (ServerSocket serverSocket = new ServerSocket(port);
                  Socket clientSocket = serverSocket.accept();
                  PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
-                 BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-                 FileWriter file = new FileWriter("new_data.json")) {
+                 BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()))) {
 
                 System.out.println("New connection accepted");
 
@@ -28,8 +27,7 @@ public class TodoServer {
                     case "ADD": todos.addTask(todos.getTask()); break;
                     case "REMOVE": todos.removeTask(todos.getTask()); break;
                 }
-                file.write(todos.getAllTasks());
-                file.flush();
+                out.println(todos.getAllTasks());
             } catch (IOException e) {
                 System.out.println("Соединение разорвано");
             }
